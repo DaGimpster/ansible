@@ -1,0 +1,22 @@
+---
+# This playbook sets all of the things I want to be standard on EVERY Hadoop datanode.
+
+# Controls the kernels tendancy to swap application data from memory to disk, unless its run out of all other options
+- name: Instruct the kernel to never swap application data to disk, unless its run out of all other options
+  sysctl: name=vm.swappiness value=0 state=present
+
+# Permits memory allocaion in excess of physical RAM with swap, as defined by vm.overcommit_ratio below
+- name: Instruct the kernel to permit the allocation of swap in access of pRAM
+  sysctl: name=vm.overcommit_memory value=1 state=present
+
+# The percentage added to the amount of pRAM when deciding how much the kernel can overcommit
+- name: Set the percentage added to the amount of pRAM when deciding how much the kernel can overcommit
+  sysctl: name=vm.overcommit_ratio value=50 state=present
+
+# Don't set force to YES unless you're wanting a new job, otherwise format raw devices to those specifications
+- name: Create and maintain standard data drive filesystems
+  filesystem: fstype=ext4 force=no dev=/dev/sdc opts="-F -m 1 -O dir_index,extent,sparse_super -L data01"
+
+# Mount the disks
+- name: Mount data drive filesystems
+  mount: name=/mnt/data01 src=/dev/sdc fstype=ext4 opts=rw,noatime,nodiratime state=mounted

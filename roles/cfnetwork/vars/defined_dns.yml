@@ -1,0 +1,7 @@
+---
+# Define your DNS configuration here
+
+primary_domain: passthetaters.com
+nameserver1: 192.168.69.10
+nameserver2: 192.168.69.10
+search_domains: passthetaters.com

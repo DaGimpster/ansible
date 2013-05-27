@@ -1,0 +1,37 @@
+---
+# Tasks to perform to net-new hosts during the deploy process
+
+- name: Make sure the system is up to date
+  action: command /usr/bin/yum -y update
+
+- name: Set standard login banner
+  action: copy src=banner dest=/etc/banner owner=root group=root mode=0644
+
+- name: Set standard MOTD
+  action: copy src=motd dest=/etc/motd owner=root group=root mode=0644
+
+- name: Set SEL to disabled
+  template: src=selconfig.j2 dest=/etc/selinux/config owner=root group=root mode=0644
+
+- name: Set standard ntpd config
+  template: src=ntp.conf.j2 dest=/etc/ntp.conf owner=root group=root mode=0644
+
+- name: Starte the ntpd service and enable it during boot
+  service: name=ntpd state=started enabled=true
+  tags: ntpd
+
+- name: Add ansible service account
+  action: user name=svc_ansible password={{ ansible_service_account_password }}
+
+- name: Add authorized deploy key for user ashinn
+  action: authorized_key user={{ ansible_service_account }} key='$FILE(roles/bootstrap/files/ashinn.pub)'
+
+- name: Set base sudoers file for deploy user access
+  template: src=sudoers.j2 dest=/etc/sudoers owner=root group=root mode=0440
+
+- name: Set base sshd config, denying root and clear password access
+  template: src=sshd_config.j2 dest=/etc/ssh/sshd_config owner=root group=root mode=0600
+  tags: sshd
+
+- name: Reboot all hosts to ensure any updates, SEL mode, etc are implemented
+  action: command /sbin/reboot 

@@ -1,0 +1,15 @@
+######################################################################
+# {{ ansible_managed }}
+# Manual customization of this file is futile, and will be smashed.
+######################################################################
+DEVICE="{{ item }}"
+{% if net_config[item].X_network is defined -%}
+IPADDR="{{ networks[net_config[item].X_network].netrange }}.{{ net_config[item].X_hostipaddr }}" 
+NETMASK="{{ networks[net_config[item].X_network].netmask }}" 
+GATEWAY="{{ networks[net_config[net_defaultif].X_network].netrange }}.{{ networks[net_config[net_defaultif].X_network].gateway }}"
+{% endif -%}
+{% for key, value in net_config[item].items() -%}
+{% if (key[:2] != 'X_') -%}
+{{ key|upper }}="{{ value }}"
+{% endif -%}
+{%- endfor -%}

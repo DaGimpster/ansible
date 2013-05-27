@@ -1,0 +1,47 @@
+######################################################################
+# {{ ansible_managed }}
+# Manual customization of this file is futile, and will be smashed.   
+######################################################################
+# Disable legacy (protocol version 1) support in the server for new
+# installations. In future the default will change to require explicit
+# activation of protocol 1
+Protocol 2
+
+# Logging options
+SyslogFacility AUTHPRIV
+
+# Authentication:
+LoginGraceTime 2m
+PermitRootLogin no
+MaxAuthTries 3
+
+# To disable tunneled clear text passwords, change to no here!
+PermitEmptyPasswords no
+PasswordAuthentication no
+
+# Change to no to disable s/key passwords
+ChallengeResponseAuthentication no
+
+# GSSAPI options
+GSSAPIAuthentication yes
+GSSAPICleanupCredentials yes
+
+# PAM Related
+UsePAM yes
+
+# Accept locale-related environment variables
+AcceptEnv LANG LC_CTYPE LC_NUMERIC LC_TIME LC_COLLATE LC_MONETARY LC_MESSAGES
+AcceptEnv LC_PAPER LC_NAME LC_ADDRESS LC_TELEPHONE LC_MEASUREMENT
+AcceptEnv LC_IDENTIFICATION LC_ALL LANGUAGE
+AcceptEnv XMODIFIERS
+
+# Other Settings
+AllowTcpForwarding no
+X11Forwarding no
+TCPKeepAlive yes
+
+# Standard banner
+Banner {{ bannerpath }}
+
+# override default of no subsystems
+Subsystem	sftp	/usr/libexec/openssh/sftp-server

@@ -1,0 +1,15 @@
+---
+
+- name: Configure /etc/resolv.conf (DNS resolution, search etc)
+  action: template owner=root group=root mode=644 src=resolv.conf.j2 dest=/etc/resolv.conf
+
+- name: Configure /etc/sysconfig/network (hostname, etc)
+  action: template owner=root group=root mode=644 src=network.j2 dest=/etc/sysconfig/network
+
+- name: Configure /etc/sysconfig/network-scripts interface files (eth0, eth1, bond0, etc)
+  action: template owner=root group=root mode=644 src=ifcfg-interface.j2 dest=/etc/sysconfig/network-scripts/ifcfg-{{ item }}
+  with_items: 
+   - $net_interfaces
+
+- name: Configure /etc/sysconfig/network-scripts static route files
+  action: template owner=root group=root mode=644 src=route-interface.j2 dest=/etc/sysconfig/network-scripts/route-{{ net_defaultif }}
