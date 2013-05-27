@@ -11,5 +11,7 @@ Author
 ======
 
 Andrew Shinn -- ashinn@ecimulti.org
+
 Twitter: @DaGimpster
+
 [Blog](http://www.ecimulti.org)
