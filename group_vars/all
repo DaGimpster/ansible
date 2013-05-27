@@ -1,7 +1,0 @@
----
-# Variables here are applicable to all hosts
-
-bannerpath: /etc/banner
-ntpserver1: 0.centos.pool.ntp.org
-ntpserver2: 1.centos.pool.ntp.org
-ntpserver3: 2.centos.pool.ntp.org
