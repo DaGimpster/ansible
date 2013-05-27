@@ -1,7 +1,0 @@
----
-# Configure and deploy Hadoop DataNodes
-- hosts: datanodes
-  user: svc_ansible
-  sudo: yes
-  roles:
-  - datanodes
