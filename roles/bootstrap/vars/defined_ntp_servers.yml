@@ -1,0 +1,6 @@
+---
+# NTP related variables
+
+ntpserver1: 0.centos.pool.ntp.org
+ntpserver2: 1.centos.pool.ntp.org
+ntpserver3: 2.centos.pool.ntp.org

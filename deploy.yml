@@ -4,6 +4,9 @@
   user: root
 
   vars_files:
+    ########################################################################################################
+    # General / unsorted variables
+  - roles/bootstrap/vars/general.yml
     ######################################################################################################## 
     # This variable file contains all DNS configuration 
   - roles/cfnetwork/vars/defined_dns.yml 
@@ -21,6 +24,9 @@
     ########################################################################################################
     # Defines the Ansible service account and crypto'd password
   - roles/bootstrap/vars/defined_ansible_account.yml
+    ########################################################################################################
+    # Defines the NTP servers 
+  - roles/bootstrap/vars/defined_ntp_servers.yml
 
   roles:
    - cfnetwork
