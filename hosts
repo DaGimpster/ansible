@@ -8,10 +8,10 @@
 #   - You can enter hostnames or ip addresses
 #   - A hostname/ip can be a member of multiple groups
 
-# Ex 2: A collection of hosts belonging to the 'webservers' group
-
 [deploy]
-192.168.69.[200:250]
+192.168.69.[200:225]
 
-[datanodes]
-dn[1:50].passthetaters.com
+[hadoopnodes]
+dn[1:5].passthetaters.com
+nn[1:2].passthetaters.com
+jt1.passthetaters.com

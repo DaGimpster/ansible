@@ -12,16 +12,28 @@
 - name: Set standard MOTD
   action: copy src=motd dest=/etc/motd owner=root group=root mode=0644
 
+- name: Copy epel repos to /etc/yum.repos.d
+  action: copy src=epel.repo dest=/etc/yum.repos.d/epel.repo owner=root group=root mode=0644
+ 
+- name: Copy epel-testing repos to /etc/yum.repos.d 
+  action: copy src=epel-testing.repo dest=/etc/yum.repos.d/epel-testing.repo owner=root group=root mode=0644
+
 #
 ########################################################################################################
 # I see ansible has a module for this now, will change it eventually
 - name: Set SEL to disabled
   template: src=selconfig.j2 dest=/etc/selinux/config owner=root group=root mode=0644
 
+- name: Stop the iptables service and disable it during boot
+  service: name=iptables state=stopped enabled=false
+
+- name: Stop the ip6tables service and disable it during boot
+  service: name=ip6tables state=stopped enabled=false
+
 - name: Set standard ntpd config
   template: src=ntp.conf.j2 dest=/etc/ntp.conf owner=root group=root mode=0644
 
-- name: Starte the ntpd service and enable it during boot
+- name: Start the ntpd service and enable it during boot
   service: name=ntpd state=started enabled=true
   tags: ntpd
 
@@ -39,7 +51,6 @@
 
 - name: Set base sshd config, denying root and clear password access
   template: src=sshd_config.j2 dest=/etc/ssh/sshd_config owner=root group=root mode=0600
-  tags: sshd
 
 - name: Reboot all hosts to ensure any updates, SEL mode, etc are implemented
   action: command /sbin/reboot 

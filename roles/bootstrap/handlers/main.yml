@@ -3,8 +3,5 @@
 ########################################################################################################
 # Handlers for common notifications
 
-- name: restart sshd
-  service: name=sshd state=restarted
-
 - name: restart ntpd
   service: name=ntpd state=restarted`

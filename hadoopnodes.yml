@@ -1,0 +1,7 @@
+---
+# Configure and deploy all Hadoop node types
+- hosts: hadoopnodes
+  user: svc_ansible
+  sudo: yes
+  roles:
+  - hadoopnodes
