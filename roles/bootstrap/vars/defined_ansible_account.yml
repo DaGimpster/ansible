@@ -1,5 +1,7 @@
 ---
-# Ansible service account name and crypto'd password
+#
+########################################################################################################
+# Ansible service account name and crypto'd supah sekret password
 
 ansible_service_account: svc_ansible
 ansible_service_account_password: '$6$KIUZL6n/prXDESzS$fMFfShWydoiktyqPdt93NZt0ZLxeaWc20JWQEPmQ7mnjN4MCKiDbSGpRZimJOmSugj8.M3bnN8x/ItcEM1OwH1' 

@@ -1,4 +1,7 @@
 ---
+#
+########################################################################################################
+# These tasks will configure DNS, hostname, NIC/bond's and any additional static routes required by MAC address (see roles/cfnetwork/vars)
 
 - name: Configure /etc/resolv.conf (DNS resolution, search etc)
   action: template owner=root group=root mode=644 src=resolv.conf.j2 dest=/etc/resolv.conf

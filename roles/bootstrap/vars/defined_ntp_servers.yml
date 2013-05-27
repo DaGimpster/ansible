@@ -1,5 +1,7 @@
 ---
-# NTP related variables
+#
+########################################################################################################
+# NTP related variables, who doesn't like time?
 
 ntpserver1: 0.centos.pool.ntp.org
 ntpserver2: 1.centos.pool.ntp.org

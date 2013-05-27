@@ -1,5 +1,7 @@
 ---
-# Tasks to perform to net-new hosts during the deploy process
+#
+########################################################################################################
+# These tasks are performed after the basic networking has been finished. 
 
 - name: Make sure the system is up to date
   action: command /usr/bin/yum -y update
@@ -10,6 +12,9 @@
 - name: Set standard MOTD
   action: copy src=motd dest=/etc/motd owner=root group=root mode=0644
 
+#
+########################################################################################################
+# I see ansible has a module for this now, will change it eventually
 - name: Set SEL to disabled
   template: src=selconfig.j2 dest=/etc/selinux/config owner=root group=root mode=0644
 
@@ -26,6 +31,9 @@
 - name: Add authorized deploy key for user ashinn
   action: authorized_key user={{ ansible_service_account }} key='$FILE(roles/bootstrap/files/ashinn.pub)'
 
+#
+########################################################################################################
+# I prefer to manage sudoers this way, different strokes for different folks!
 - name: Set base sudoers file for deploy user access
   template: src=sudoers.j2 dest=/etc/sudoers owner=root group=root mode=0440
 
