@@ -10,11 +10,9 @@ If you use anything, more power to you. Make sure to remove my .pub key... unles
 Manifest
 ========
 
-hosts - I shouldn't have to explain this one!
-
-deploy.yml - This is my general bootstrapper playbook. This configures the NIC's, DNS, NTP, ssh, locks down the hosts to only my service account and many other things.
-
-datanodes.yml - This applies configuration specific only to my Hadoop DataNodes.
+* hosts - I shouldn't have to explain this one!
+* deploy.yml - This is my general bootstrapper playbook. This configures the NIC's, DNS, NTP, ssh, locks down the hosts to only my service account and many other things.
+* datanodes.yml - This applies configuration specific only to my Hadoop DataNodes.
 
 Author
 ======
