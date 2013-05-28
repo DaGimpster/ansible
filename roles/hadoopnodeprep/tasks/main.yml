@@ -3,9 +3,8 @@
 ########################################################################################################
 # This playbook sets all of the things I want to be standard on EVERY Hadoop node.
 
-- name: Copy epel repos to /etc/yum.repos.d
-  action: copy src=epel.repo dest=/etc/yum.repos.d/epel.repo owner=root group=root mode=0644
-  action: copy src=epel-testing.repo dest=/etc/yum.repos.d/epel-testing.repo owner=root group=root mode=0644
+- name: Configure yum to install the architecture that best matches the system (x86 / x86_64)
+  lineinfile: dest=/etc/yum.conf regexp="^" insertafter=EOF line="multilib_policy=best"
 
 - name: Copy Cloudera CDH4 repo to /etc/yum/repos.d
   action: copy src=cloudera-cdh4.repo dest=/etc/yum.repos.d/cloudera-cdh4.repo owner=root group=root mode=0644
@@ -37,3 +36,35 @@
 
 - name: Mount data drive filesystems
   mount: name=/mnt/data01 src=/dev/sdc fstype=ext4 opts=rw,noatime,nodiratime state=mounted
+
+#
+########################################################################################################
+# Remove the OpenJDK and install OracleJDK
+# Yes I know this is ugly, I will replace with a shell script later on. I blame Oracle/Sun!
+
+- name: Uninstall OpenJDK 1.6.x
+  yum: name=java-1.6.0-openjdk state=absent
+
+- name: Uninstall OpenJDK 1.7.x
+  yum: name=java-1.7.0-openjdk state=absent
+
+- name: Create OracleJDK installation working directory
+  command: mkdir /root/java
+
+- name: Create OracleJDK installation answer file
+  command: touch /root/java/answers
+
+- name: Copy OracleJDK x64 1.6u31 to target hosts
+  action: copy src=/root/java/jdk-6u31-linux-x64-rpm.bin dest=/root/java/jdk-6u31-linux-x64-rpm.bin owner=root group=root mode=0770
+
+- name: Install OracleJDK x64 1.6u31
+  shell: /root/java/jdk-6u31-linux-x64-rpm.bin < /root/java/answers > /tmp/jdk_install.log
+
+- name: Blow away OracleJDK installation working director
+  command: rm -rf /root/java
+
+#
+########################################################################################################
+# Install base Hadoop package on all nodes
+- name: Install base Hadoop package on all nodes
+  yum: name=hadoop state=present 

@@ -4,4 +4,4 @@
   user: svc_ansible
   sudo: yes
   roles:
-  - hadoopnodes
+  - hadoopnodeprep
