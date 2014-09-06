@@ -1,38 +1,41 @@
 ---
 #
-########################################################################################################
+################################################################################
 # Configure NIC's & bonds by MAC address on new hosts, and a bootstrap them too 
 - hosts: deploy
   user: root
 
   vars_files:
     #
-    ########################################################################################################
+    ############################################################################
     # General / unsorted variable file
   - roles/bootstrap/vars/general.yml
     #
-    ######################################################################################################## 
+    ############################################################################ 
     # This variable file contains all DNS configuration 
   - roles/cfnetwork/vars/defined_dns.yml 
     #
-    ########################################################################################################
+    ############################################################################
     # This variable file contains all subnets that can be configured
   - roles/cfnetwork/vars/defined_networks.yml
     #
-    ########################################################################################################
-    # Each host is discovered and ultimatly configured by its Ansible MAC fact which coresponds to a i
-    # specific configuration file. roles/cfnetwork/vars/MAC/$mac is actually a symlink to a corresponding
+    ############################################################################
+    # Each host is discovered and ultimatly configured by its Ansible MAC fact 
+    # which coresponds to a 
+    # specific configuration file. roles/cfnetwork/vars/MAC/$mac is actually a 
+    # symlink to a corresponding
     # hostname in: roles/cfnetwork/vars/hosts. Please see those files for syntax
     #
-    # Below choose the ansible fact the playbook will discover the MAC with, depends on the usage scenario
+    # Below choose the ansible fact the playbook will discover the MAC with, 
+    # depends on the usage scenario
   - [ "roles/cfnetwork/vars/MAC/{{ ansible_default_ipv4.macaddress }}.yml" ]
   #- [ "roles/cfnetwork/vars/MAC/{{ ansible_bond0.macaddress }}.yml" ]
     #
-    ########################################################################################################
+    ############################################################################
     # Defines the Ansible service account and crypto'd password
   - roles/bootstrap/vars/defined_ansible_account.yml
     #
-    ########################################################################################################
+    ############################################################################
     # Defines the NTP servers 
   - roles/bootstrap/vars/defined_ntp_servers.yml
 

@@ -3,8 +3,8 @@
 ########################################################################################################
 # These tasks are performed after the basic networking has been finished. 
 
-- name: Make sure the system is up to date
-  action: command /usr/bin/yum -y update
+#- name: Make sure the system is up to date
+#  action: command /usr/bin/yum -y update
 
 - name: Set standard login banner
   action: copy src=banner dest=/etc/banner owner=root group=root mode=0644
@@ -18,11 +18,8 @@
 - name: Copy epel-testing repos to /etc/yum.repos.d 
   action: copy src=epel-testing.repo dest=/etc/yum.repos.d/epel-testing.repo owner=root group=root mode=0644
 
-#
-########################################################################################################
-# I see ansible has a module for this now, will change it eventually
 - name: Set SEL to disabled
-  template: src=selconfig.j2 dest=/etc/selinux/config owner=root group=root mode=0644
+  selinux: state=disabled
 
 - name: Stop the iptables service and disable it during boot
   service: name=iptables state=stopped enabled=false
@@ -41,7 +38,8 @@
   action: user name=svc_ansible password={{ ansible_service_account_password }}
 
 - name: Add authorized deploy key for user ashinn
-  action: authorized_key user={{ ansible_service_account }} key='$FILE(roles/bootstrap/files/ashinn.pub)'
+  #action: authorized_key user={{ ansible_service_account }} key='$FILE(roles/bootstrap/files/ashinn.pub)'
+  action: authorized_key user={{ ansible_service_account }} key="{{ lookup('file', 'ashinn.pub') }}"
 
 #
 ########################################################################################################
